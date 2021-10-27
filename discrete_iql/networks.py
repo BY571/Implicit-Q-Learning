@@ -9,15 +9,6 @@ class Actor(nn.Module):
     """Actor (Policy) Model."""
 
     def __init__(self, state_size, action_size, hidden_size=32):
-        """Initialize parameters and build model.
-        Params
-        ======
-            state_size (int): Dimension of each state
-            action_size (int): Dimension of each action
-            seed (int): Random seed
-            fc1_units (int): Number of nodes in first hidden layer
-            fc2_units (int): Number of nodes in second hidden layer
-        """
         super(Actor, self).__init__()
        
         self.fc1 = nn.Linear(state_size, hidden_size)
@@ -39,10 +30,6 @@ class Actor(nn.Module):
         return action, dist
         
     def get_action(self, state):
-        """
-        returns the action based on a squashed gaussian policy. That means the samples are obtained according to:
-        a(s,e)= tanh(mu(s)+sigma(s)+e)
-        """
         logits = self.forward(state)
         dist = Categorical(logits=logits)
         action = dist.sample()
