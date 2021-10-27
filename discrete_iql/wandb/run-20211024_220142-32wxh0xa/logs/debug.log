@@ -1,0 +1,15 @@
+2021-10-24 22:01:42,976 INFO    MainThread:250587 [wandb_setup.py:_flush():70] setting env: {}
+2021-10-24 22:01:42,977 INFO    MainThread:250587 [wandb_setup.py:_flush():70] multiprocessing start_methods=fork,spawn,forkserver
+2021-10-24 22:01:42,977 INFO    MainThread:250587 [wandb_setup.py:_flush():70] setting login settings: {}
+2021-10-24 22:01:42,977 INFO    MainThread:250587 [wandb_init.py:_log_setup():303] Logging user logs to /home/sebastian/Documents/IQL/discrete_iql/wandb/run-20211024_220142-32wxh0xa/logs/debug.log
+2021-10-24 22:01:42,978 INFO    MainThread:250587 [wandb_init.py:_log_setup():304] Logging internal logs to /home/sebastian/Documents/IQL/discrete_iql/wandb/run-20211024_220142-32wxh0xa/logs/debug-internal.log
+2021-10-24 22:01:44,049 INFO    MainThread:250587 [wandb_run.py:_console_start():1218] atexit reg
+2021-10-24 22:01:44,049 INFO    MainThread:250587 [wandb_run.py:_redirect():1085] redirect: SettingsConsole.REDIRECT
+2021-10-24 22:01:44,049 INFO    MainThread:250587 [wandb_run.py:_redirect():1088] Redirecting console.
+2021-10-24 22:01:44,050 INFO    MainThread:250587 [redirect.py:install():204] install start
+2021-10-24 22:01:44,051 INFO    MainThread:250587 [redirect.py:install():219] install stop
+2021-10-24 22:01:44,051 INFO    MainThread:250587 [redirect.py:install():204] install start
+2021-10-24 22:01:44,052 INFO    MainThread:250587 [redirect.py:install():219] install stop
+2021-10-24 22:01:44,052 INFO    MainThread:250587 [wandb_run.py:_redirect():1132] Redirects installed.
+2021-10-24 22:01:49,052 INFO    MainThread:250587 [wandb_watch.py:watch():35] Watching
+2021-10-24 22:02:18,689 INFO    MainThread:250587 [wandb_run.py:finish():912] finishing run sebastian-dittert/IQL/32wxh0xa
