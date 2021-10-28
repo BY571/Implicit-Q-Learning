@@ -8,9 +8,15 @@ Currently only implemented for online learning. Offline RL version with D4RL wil
 `python train.py`
 
 # Results 
+## Continuous IQL
 ### Pendulum 
 
 ![alt-text](imgs/pendulum.png)
+
+## Discrete IQL
+### CartPole
+
+![alt-text](imgs/cartpole.png)
 
 # Reference
 
