@@ -17,7 +17,7 @@ def get_config():
     parser = argparse.ArgumentParser(description='RL')
     parser.add_argument("--run_name", type=str, default="IQL-discrete", help="Run name, default: SAC")
     parser.add_argument("--env", type=str, default="CartPole-v0", help="Gym environment name, default: Pendulum-v0")
-    parser.add_argument("--episodes", type=int, default=500, help="Number of episodes, default: 100")
+    parser.add_argument("--episodes", type=int, default=200, help="Number of episodes, default: 100")
     parser.add_argument("--buffer_size", type=int, default=100_000, help="Maximal training dataset size, default: 100_000")
     parser.add_argument("--seed", type=int, default=1, help="Seed, default: 1")
     parser.add_argument("--log_video", type=int, default=0, help="Log agent behaviour to wanbd when set to 1, default: 0")

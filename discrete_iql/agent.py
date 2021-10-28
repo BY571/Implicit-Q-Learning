@@ -18,11 +18,11 @@ class IQL(nn.Module):
         self.device = device
         
         self.gamma = torch.FloatTensor([0.99]).to(device)
-        self.tau = 5e-3
+        self.hard_update_every = 10
         hidden_size = 256
-        learning_rate = 3e-3
-        self.clip_grad_param = 1
-        self.temperature = torch.FloatTensor([0.1]).to(device)
+        learning_rate = 3e-4
+        self.clip_grad_param = 100
+        self.temperature = torch.FloatTensor([100]).to(device)
         self.expectile = torch.FloatTensor([0.8]).to(device)
            
         # Actor Network 
@@ -47,6 +47,7 @@ class IQL(nn.Module):
         self.value_net = Value(state_size=state_size, hidden_size=hidden_size).to(device)
         
         self.value_optimizer = optim.Adam(self.value_net.parameters(), lr=learning_rate)
+        self.step = 0
 
     
     def get_action(self, state, eval=False):
@@ -64,10 +65,10 @@ class IQL(nn.Module):
             min_Q = torch.min(q1,q2)
 
         exp_a = torch.exp((min_Q - v) * self.temperature)
-        exp_a = torch.min(exp_a, torch.FloatTensor([100.0]).to(states.device))
+        exp_a = torch.min(exp_a, torch.FloatTensor([100.0]).to(states.device)).squeeze(-1)
 
         _, dist = self.actor_local.evaluate(states)
-        log_probs = dist.log_prob(actions)
+        log_probs = dist.log_prob(actions.squeeze(-1))
         actor_loss = -(exp_a * log_probs).mean()
 
         return actor_loss
@@ -95,6 +96,7 @@ class IQL(nn.Module):
 
 
     def learn(self, experiences):
+        self.step += 1
         states, actions, rewards, next_states, dones = experiences
         
         self.value_optimizer.zero_grad()
@@ -120,11 +122,17 @@ class IQL(nn.Module):
         clip_grad_norm_(self.critic2.parameters(), self.clip_grad_param)
         self.critic2_optimizer.step()
 
-        # ----------------------- update target networks ----------------------- #
-        self.soft_update(self.critic1, self.critic1_target)
-        self.soft_update(self.critic2, self.critic2_target)
+        if self.step % self.hard_update_every == 0:
+            # ----------------------- update target networks ----------------------- #
+            self.hard_update(self.critic1, self.critic1_target)
+            self.hard_update(self.critic2, self.critic2_target)
         
         return actor_loss.item(), critic1_loss.item(), critic2_loss.item(), value_loss.item()
+    
+    def hard_update(self, local_model, target_model):
+        for target_param, local_param in zip(target_model.parameters(), local_model.parameters()):
+            target_param.data.copy_(local_param.data)
+        
 
     def soft_update(self, local_model , target_model):
         """Soft update model parameters.
