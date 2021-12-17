@@ -9,6 +9,11 @@ class IQL(nn.Module):
     def __init__(self,
                  state_size,
                  action_size,
+                 learning_rate,
+                 hidden_size,
+                 tau,
+                 temperature,
+                 expectile,
                  device
                 ): 
         super(IQL, self).__init__()
@@ -18,12 +23,12 @@ class IQL(nn.Module):
         self.device = device
         
         self.gamma = torch.FloatTensor([0.99]).to(device)
-        self.tau = 5e-3
-        hidden_size = 256
-        learning_rate = 3e-4
+        self.tau = tau
+        hidden_size = hidden_size
+        learning_rate = learning_rate
         self.clip_grad_param = 1
-        self.temperature = torch.FloatTensor([0.1]).to(device)
-        self.expectile = torch.FloatTensor([0.8]).to(device)
+        self.temperature = torch.FloatTensor([temperature]).to(device)
+        self.expectile = torch.FloatTensor([expectile]).to(device)
            
         # Actor Network 
         self.actor_local = Actor(state_size, action_size, hidden_size).to(device)

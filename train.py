@@ -23,6 +23,11 @@ def get_config():
     parser.add_argument("--log_video", type=int, default=0, help="Log agent behaviour to wanbd when set to 1, default: 0")
     parser.add_argument("--save_every", type=int, default=100, help="Saves the network every x epochs, default: 25")
     parser.add_argument("--batch_size", type=int, default=256, help="Batch size, default: 256")
+    parser.add_argument("--hidden_size", type=int, default=256, help="")
+    parser.add_argument("--learning_rate", type=float, default=3e-4, help="")
+    parser.add_argument("--temperature", type=float, default=3, help="")
+    parser.add_argument("--expectile", type=float, default=0.7, help="")
+    parser.add_argument("--tau", type=float, default=5e-3, help="")
     
     args = parser.parse_args()
     return args
@@ -45,6 +50,11 @@ def train(config):
         
         agent = IQL(state_size=env.observation_space.shape[0],
                     action_size=env.action_space.shape[0],
+                    learning_rate=config.learning_rate,
+                    hidden_size=config.hidden_size,
+                    tau=config.tau,
+                    temperature=config.temperature,
+                    expectile=config.expectile,
                     device=device)
 
         wandb.watch(agent, log="gradients", log_freq=10)
