@@ -100,7 +100,8 @@ def train(config):
         wandb.watch(agent, log="gradients", log_freq=10)
         if config.log_video:
             env = gym.wrappers.Monitor(env, './video', video_callable=lambda x: x%10==0, force=True)
-
+        eval_reward = evaluate(env, agent)
+        wandb.log({"Test Reward": eval_reward, "Episode": 0, "Batches": batches}, step=batches)
         for i in range(1, config.episodes+1):
 
             for batch_idx, experience in enumerate(dataloader):
